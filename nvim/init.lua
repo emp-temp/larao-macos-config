@@ -1,5 +1,8 @@
 -- Basic Config
+vim.g.mapleader = " "
+
 vim.o.number = true
+vim.o.wrap = false
 vim.o.expandtab = true
 vim.o.tabstop = 2
 vim.o.shiftwidth = 2
@@ -31,6 +34,8 @@ bootstrap_pckr()
 
 -- setup pckr.nvim
 require("pckr").add({
+	"nvim-lua/plenary.nvim",
+
 	"nvim-treesitter/nvim-treesitter",
 	"craftzdog/solarized-osaka.nvim",
 	"maxmx03/solarized.nvim",
@@ -53,7 +58,6 @@ require("pckr").add({
 	"nvim-tree/nvim-web-devicons",
 
 	"nvimtools/none-ls.nvim",
-	"nvim-lua/plenary.nvim",
 
 	"j-hui/fidget.nvim",
 
@@ -62,6 +66,8 @@ require("pckr").add({
 	"nvim-tree/nvim-tree.lua",
 
 	"akinsho/bufferline.nvim",
+
+	"nvim-telescope/telescope.nvim",
 })
 
 local status_ok, solarized_osaka = pcall(require, "solarized-osaka")
@@ -341,4 +347,12 @@ end
 local status_ok, bufferline = pcall(require, "bufferline")
 if status_ok then
 	bufferline.setup()
+end
+
+local status_ok, telescope_builtin = pcall(require, "telescope.builtin")
+if status_ok then
+	vim.keymap.set("n", "<leader>ff", telescope_builtin.find_files, { desc = "Telescope find files" })
+	vim.keymap.set("n", "<leader>fg", telescope_builtin.live_grep, { desc = "Telescope live grep" })
+	vim.keymap.set("n", "<leader>fb", telescope_builtin.buffers, { desc = "Telescope buffers" })
+	vim.keymap.set("n", "<leader>fh", telescope_builtin.help_tags, { desc = "Telescope help tags" })
 end
