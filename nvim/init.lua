@@ -38,7 +38,6 @@ require("pckr").add({
 
 	"nvim-treesitter/nvim-treesitter",
 	"craftzdog/solarized-osaka.nvim",
-	"maxmx03/solarized.nvim",
 	"nvim-lualine/lualine.nvim",
 
 	"neovim/nvim-lspconfig",
@@ -75,7 +74,7 @@ if status_ok then
 	solarized_osaka.setup({
 		-- your configuration comes here
 		-- or leave it empty to use the default settings
-		transparent = false, -- Enable this to disable setting the background color
+		transparent = true, -- Enable this to disable setting the background color
 		terminal_colors = true, -- Configure the colors used when opening a `:terminal` in [Neovim](https://github.com/neovim/neovim)
 		styles = {
 			-- Style to be applied to different syntax groups
@@ -225,6 +224,9 @@ if lspconfig_status_ok and capabilities_status_ok then
 	lspconfig.ts_ls.setup({
 		capabilities = capabilities.default_capabilities(),
 	})
+	lspconfig.lua_ls.setup({
+		capabilities = capabilities.default_capabilities(),
+	})
 end
 
 local status_ok, mason = pcall(require, "mason")
@@ -300,6 +302,7 @@ if status_ok then
 	vim.keymap.set("n", "gd", "<CMD>Lspsaga goto_definition<CR>")
 	vim.keymap.set("n", "gt", "<CMD>Lspsaga goto_type_definition<CR>")
 	vim.keymap.set("n", "gr", "<CMD>Lspsaga finder tyd+ref+imp+def<CR>")
+	vim.keymap.set("n", "gR", "<CMD>Lspsaga rename<CR>")
 	vim.keymap.set("n", "[e", "<CMD>Lspsaga diagnostic_jump_next<CR>")
 	vim.keymap.set("n", "]e", "<CMD>Lspsaga diagnostic_jump_prev<CR>")
 	vim.keymap.set("n", "gT", "<CMD>Lspsaga term_toggle<CR>")
