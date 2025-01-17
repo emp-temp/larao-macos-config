@@ -67,6 +67,8 @@ require("pckr").add({
 	"akinsho/bufferline.nvim",
 
 	"nvim-telescope/telescope.nvim",
+
+	"karb94/neoscroll.nvim",
 })
 
 local status_ok, solarized_osaka = pcall(require, "solarized-osaka")
@@ -74,7 +76,7 @@ if status_ok then
 	solarized_osaka.setup({
 		-- your configuration comes here
 		-- or leave it empty to use the default settings
-		transparent = true, -- Enable this to disable setting the background color
+		transparent = false, -- Enable this to disable setting the background color
 		terminal_colors = true, -- Configure the colors used when opening a `:terminal` in [Neovim](https://github.com/neovim/neovim)
 		styles = {
 			-- Style to be applied to different syntax groups
@@ -344,7 +346,7 @@ end
 local status_ok, nvim_tree = pcall(require, "nvim-tree")
 if status_ok then
 	nvim_tree.setup()
-	vim.keymap.set("n", "<leader>n", "<CMD>NvimTreeToggle<CR>")
+	vim.keymap.set("n", "<leader>e", "<CMD>NvimTreeToggle<CR>")
 end
 
 local status_ok, bufferline = pcall(require, "bufferline")
@@ -358,4 +360,34 @@ if status_ok then
 	vim.keymap.set("n", "<leader>fg", telescope_builtin.live_grep, { desc = "Telescope live grep" })
 	vim.keymap.set("n", "<leader>fb", telescope_builtin.buffers, { desc = "Telescope buffers" })
 	vim.keymap.set("n", "<leader>fh", telescope_builtin.help_tags, { desc = "Telescope help tags" })
+end
+
+local status_ok, neoscroll = pcall(require, "neoscroll")
+if status_ok then
+	neoscroll.setup({
+		mappings = { -- Keys to be mapped to their corresponding default scrolling animation
+			"<C-u>",
+			"<C-d>",
+			"<C-b>",
+			"<C-f>",
+			"<C-y>",
+			"<C-e>",
+			"zt",
+			"zz",
+			"zb",
+		},
+		hide_cursor = true, -- Hide cursor while scrolling
+		stop_eof = true, -- Stop at <EOF> when scrolling downwards
+		respect_scrolloff = false, -- Stop scrolling when the cursor reaches the scrolloff margin of the file
+		cursor_scrolls_alone = true, -- The cursor will keep on scrolling even if the window cannot scroll further
+		duration_multiplier = 1.0, -- Global duration multiplier
+		easing = "linear", -- Default easing function
+		pre_hook = nil, -- Function to run before the scrolling animation starts
+		post_hook = nil, -- Function to run after the scrolling animation ends
+		performance_mode = false, -- Disable "Performance Mode" on all buffers.
+		ignored_events = { -- Events ignored while scrolling
+			"WinScrolled",
+			"CursorMoved",
+		},
+	})
 end
